@@ -1,18 +1,23 @@
+import { eventList } from "../index.js";
+
 export class Subscription {
+  id;
   event;
   cb;
-  isActive;
   constructor(event, cb) {
+    this.id = this.autoGenerateId();
     this.event = event;
     this.cb = cb;
-    this.isActive = true;
   }
 
   release() {
-    this.isActive = false;
+    const idx = eventList[this.event].indexOf(this);
+    if (idx > -1) {
+      eventList[this.event].splice(idx, 1);
+    }
   }
 
-  resubscribe() {
-    this.isActive = true;
+  autoGenerateId() {
+    return Math.random().toString(36).slice(2);
   }
 }

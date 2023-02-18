@@ -3,6 +3,8 @@ import { Subscription } from "./exports/Subscription.mjs";
 
 const emitter = new Emitter();
 
+export const eventList = {};
+
 const logHello = () => {
   console.log("Hello");
 };
@@ -22,6 +24,6 @@ const sub3 = emitter.subscribe("logText", logText);
 emitter.emit("logHello");
 emitter.emit("logText");
 
-sub1.release();
+sub2.release();
 
 emitter.emit("logHello");

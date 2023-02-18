@@ -1,4 +1,5 @@
 import { Subscription } from "./Subscription.mjs";
+import { eventList } from "../index.js";
 
 export class Emitter {
   eventList;
@@ -8,23 +9,20 @@ export class Emitter {
 
   subscribe(event, cb) {
     const sub = new Subscription(event, cb);
-    if (this.eventList[event]) {
-      this.eventList[event].push(sub);
+    if (eventList[event]) {
+      eventList[event].push(sub);
     } else {
-      this.eventList[event] = [];
-      this.eventList[event].push(sub);
+      eventList[event] = [];
+      eventList[event].push(sub);
     }
     return sub;
   }
 
   emit(event) {
-    if (this.eventList[event]) {
-      this.eventList[event].forEach((sub) => {
-        if (sub.isActive) {
-          sub.cb();
-        } else {
-          console.log("Subscription was released");
-        }
+    if (eventList[event]) {
+      eventList[event].forEach((sub) => {
+        console.log(`Subscription ID: ${sub.id}`);
+        sub.cb();
       });
     } else {
       console.log("Event does not exist");
